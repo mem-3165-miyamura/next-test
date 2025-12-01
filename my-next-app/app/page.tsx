@@ -1,8 +1,33 @@
 import Image from "next/image";
+import { getProfiles } from '../lib/data'; // データを取得する関数をインポート
+import { Profile } from '../types/types';
 
-export default function Home() {
+export default async function Home() {
+// データを取得
+  const profiles: Profile[] = await getProfiles();
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+{profiles.length === 0 ? (
+        <p className="text-red-500">データがありません。Supabaseのシードデータを確認してください。</p>
+      ) : (
+        <ul className="space-y-4">
+          {profiles.map((profile) => (
+            <li key={profile.id} className="p-4 border rounded-lg shadow-sm">
+              <p>
+                <strong>Username:</strong> {profile.username}
+              </p>
+              <p>
+                <strong>Email:</strong> {profile.email}
+              </p>
+              {profile.full_name && (
+                <p>
+                  <strong>Full Name:</strong> {profile.full_name}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
         <Image
           className="dark:invert"
