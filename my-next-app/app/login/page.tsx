@@ -42,6 +42,14 @@ export default function LoginPage() {
     
     const origin = (await headers()).get('origin') || 'http://localhost:3000';
 
+    const origin1 = (await headers()).get('origin');
+    const origin2 = 'http://localhost:3000';
+    const origin3 = `${origin}/auth/callback`;
+
+    console.error('check1:', origin1);
+    console.error('check2:', origin2);
+    console.error('check3:', origin3);
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
